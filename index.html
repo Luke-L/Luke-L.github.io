@@ -12,21 +12,27 @@
         min-height: 100vh;
         margin: 0;
     }
-    .container {
-        position: relative; /* Set to relative so the absolute positioned children relate to this container */
-        display: flex;
-        flex-direction: column; /* Stack children vertically */
-        align-items: center; /* Center children horizontally */
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+        grid-template-rows: repeat(3, 1fr); /* 3 rows */
+        gap: 20px; /* Gap between grid items */
+        width: 1660px; /* Adjusted width to fit 2 items with their gaps */
     }
-    .photo-frame, .overlay-container {
+    .container {
+        position: relative;
         width: 800px;
         height: 800px;
     }
     .photo-frame {
         background-color: #ffffff; /* White Background */
+        width: 100%;
+        height: 100%;
     }
-    .photo-container {
-        position: relative;
+    .photo-container, .overlay-container {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
     }
@@ -42,33 +48,74 @@
         mix-blend-mode: screen; /* Screen blend mode for Green and Blue Channel */
     }
     .overlay-container {
-        position: absolute;
-        top: 0;
         z-index: 10; /* Place on top of the other images and frame */
-    }
-    #singlePhoto {
-        visibility: visible;
     }
 </style>
 </head>
 <body>
-    <div class="container">
-        <div class="overlay-container">
-            <img id="singlePhoto" src="supp/menswear dog 1.jpg" alt="Overlay Photo"> 
-        </div>
-        <div class="photo-frame">
-            <div class="photo-container">
-                <img src="supp/menswear dog 1_red.png" alt="Red Channel" style="background-color: red;">
-                <img src="supp/menswear dog 1_green.png" alt="Green Channel" class="blend" style="background-color: green;">
-                <img src="supp/menswear dog 1_blue.png" alt="Blue Channel" class="blend" style="background-color: blue;">
+    <div class="grid-container">
+        <!-- Repeat the following block for each grid item -->
+        <!-- You might need to replace the img src attributes with the correct paths for each grid item -->
+        <div class="container">
+            <div class="overlay-container">
+                <img class="overlay" src="supp/menswear dog 1.jpg" alt="Overlay Photo">
+            </div>
+            <div class="photo-frame">
+                <div class="photo-container">
+                    <img src="supp/menswear dog 1_R.png" alt="Red Channel" style="background-color: red;">
+                    <img src="supp/menswear dog 1_G.png" alt="Green Channel" class="blend" style="background-color: green;">
+                    <img src="supp/menswear dog 1_B.png" alt="Blue Channel" class="blend" style="background-color: blue;">
+                </div>
             </div>
         </div>
+        <div class="container">
+            <div class="overlay-container">
+                <img class="overlay" src="supp/hiphotelsfrance0000ypma_0248_DS.jpg" alt="Overlay Photo">
+            </div>
+            <div class="photo-frame">
+                <div class="photo-container">
+                    <img src="supp/hiphotelsfrance0000ypma_0248_DS_R.jpg" alt="Red Channel" style="background-color: red;">
+                    <img src="supp/hiphotelsfrance0000ypma_0248_DS_G.jpg" alt="Green Channel" class="blend" style="background-color: green;">
+                    <img src="supp/hiphotelsfrance0000ypma_0248_DS_B.jpg" alt="Blue Channel" class="blend" style="background-color: blue;">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="overlay-container">
+                <img class="overlay" src="supp/shame.png" alt="Overlay Photo">
+            </div>
+            <div class="photo-frame">
+                <div class="photo-container">
+                    <img src="supp/shame_R.png" alt="Red Channel" style="background-color: red;">
+                    <img src="supp/shame_G.png" alt="Green Channel" class="blend" style="background-color: green;">
+                    <img src="supp/shame_B.png" alt="Blue Channel" class="blend" style="background-color: blue;">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="overlay-container">
+                <img class="overlay" src="supp/menswear dog 1.jpg" alt="Overlay Photo">
+            </div>
+            <div class="photo-frame">
+                <div class="photo-container">
+                    <img src="supp/menswear dog 1_R.png" alt="Red Channel" style="background-color: red;">
+                    <img src="supp/menswear dog 1_G.png" alt="Green Channel" class="blend" style="background-color: green;">
+                    <img src="supp/menswear dog 1_B.png" alt="Blue Channel" class="blend" style="background-color: blue;">
+                </div>
+            </div>
+        </div>
+        <!-- End of block -->
+        <!-- Repeat the block as needed for each item in the grid -->
     </div>
     <script>
-        const singlePhoto = document.getElementById('singlePhoto');
+        // If you need to toggle visibility of overlay for each grid item, 
+        // you need to select all overlay images and toggle their visibility in a loop.
+        const overlays = document.querySelectorAll('.overlay');
         
         setInterval(() => {
-            singlePhoto.style.visibility = singlePhoto.style.visibility === 'visible' ? 'hidden' : 'visible';
+            overlays.forEach(overlay => {
+                overlay.style.visibility = overlay.style.visibility === 'visible' ? 'hidden' : 'visible';
+            });
         }, 500);
     </script>
 </body>
