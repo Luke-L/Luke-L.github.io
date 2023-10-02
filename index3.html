@@ -20,6 +20,7 @@
         width: 100%; /* Adjusted width to use the full width of the viewport */
         max-width: 1200px; /* Maximum width of the grid container */
         margin: auto; /* Center the grid container */
+        margin-top: 50px;
     }
     .container {
         position: relative;
@@ -53,25 +54,37 @@
 </style>
 </head>
 <body>
-    <div class="grid-container">
-        <div class="container" data-base="supp/menswear_dog_1">
-            <div class="photo-frame">
-                <div class="photo-container"></div>
-            </div>
+    <div class="container" data-base="supp/menswear dog 1">
+        <div class="photo-frame">
+            <div class="photo-container"></div>
         </div>
-        <div class="container" data-base="supp/hiphotels_france_0248_DS">
-            <div class="photo-frame">
-                <div class="photo-container"></div>
-            </div>
+    </div>
+    <div class="container" data-base="supp/hiphotelsfrance0000ypma_0248_DS">
+        <div class="photo-frame">
+            <div class="photo-container"></div>
         </div>
-        <!-- More Containers as needed. Update the data-base attributes accordingly -->
+    </div>
+    <div class="container" data-base="supp/shame">
+        <div class="photo-frame">
+            <div class="photo-container"></div>
+        </div>
+    </div>
+    <div class="container" data-base="HomeslicePXL_20230413_162019782">
+        <div class="photo-frame">
+            <div class="photo-container"></div>
+        </div>
+    </div>
+    <div class="container" data-base="supp/DSC_0045">
+        <div class="photo-frame">
+            <div class="photo-container"></div>
+        </div>
     </div>
     <script>
         document.querySelectorAll('.container').forEach(container => {
             const base = container.getAttribute('data-base');
             const photoContainer = container.querySelector('.photo-container');
             
-            ['_R.png', '_G.png', '_B.png'].forEach((suffix, index) => {
+            ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, index) => {
                 const img = document.createElement('img');
                 img.src = base + suffix;
                 img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
