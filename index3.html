@@ -80,19 +80,21 @@
         justify-content: center;
     }
     .modal-content {
-        background-color: white;
+        background-color: transparent; /* Make modal content background transparent */
         width: 90%;
         height: 90%;
         position: relative;
     }
+    
     .modal-photo-container {
+        display: flex; /* Use Flexbox */
+        align-items: center; /* Center Vertically */
+        justify-content: center; /* Center Horizontally */
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        padding: 0; /* Added 10% padding */
-        box-sizing: border-box; /* Make sure padding is included in width/height */
     }
 </style>
 </head>
@@ -185,22 +187,8 @@
                     img.src = base + suffix;
                     img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
                     img.style.backgroundColor = ['red', 'green', 'blue'][index];
+                    img.style.objectFit = 'contain'; // Add this line to make sure the entire image is visible
                     if (index > 0) img.classList.add('blend');
-
-                    // Calculate and set width and height to avoid borders
-                    img.addEventListener('load', () => {
-                        const containerAspectRatio = modalPhotoContainer.clientWidth / modalPhotoContainer.clientHeight;
-                        const imageAspectRatio = img.naturalWidth / img.naturalHeight;
-                        
-                        if(imageAspectRatio > containerAspectRatio) {
-                            img.style.width = '100%';
-                            img.style.height = 'auto';
-                        } else {
-                            img.style.width = 'auto';
-                            img.style.height = '100%';
-                        }
-                    });
-                    
                     modalPhotoContainer.appendChild(img);
                 });
                 
