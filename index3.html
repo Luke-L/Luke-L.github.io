@@ -63,7 +63,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: cover; /* Changed to contain to show the full image */
     }
     img.blend {
         mix-blend-mode: screen;
@@ -91,6 +91,8 @@
         left: 0;
         width: 100%;
         height: 100%;
+        padding: 0; /* Added 10% padding */
+        box-sizing: border-box; /* Make sure padding is included in width/height */
     }
 </style>
 </head>
@@ -128,6 +130,26 @@
                 <div class="photo-container"></div>
             </div>
         </div>
+        <div class="container" data-base="supp/DSC_0045">
+            <div class="photo-frame">
+                <div class="photo-container"></div>
+            </div>
+        </div>
+        <div class="container" data-base="supp/postcard_02">
+            <div class="photo-frame">
+                <div class="photo-container"></div>
+            </div>
+        </div>
+        <div class="container" data-base="supp/hiphotelsfrance0000ypma_0248_DS">
+            <div class="photo-frame">
+                <div class="photo-container"></div>
+            </div>
+        </div>
+        <div class="container" data-base="supp/ScreenShot_23-03-17_17-08-40-000">
+            <div class="photo-frame">
+                <div class="photo-container"></div>
+            </div>
+        </div>
         <!-- More Containers as needed. Update the data-base attributes accordingly -->
     </div>
     <div id="modal" class="modal">
@@ -155,22 +177,36 @@
                 const modal = document.getElementById('modal');
                 const modalPhotoContainer = document.querySelector('.modal-photo-container');
                 modalPhotoContainer.innerHTML = '';
-
+                
                 const base = document.querySelectorAll('.container')[index].getAttribute('data-base');
-
+                
                 ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, index) => {
                     const img = document.createElement('img');
                     img.src = base + suffix;
                     img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
                     img.style.backgroundColor = ['red', 'green', 'blue'][index];
                     if (index > 0) img.classList.add('blend');
+
+                    // Calculate and set width and height to avoid borders
+                    img.addEventListener('load', () => {
+                        const containerAspectRatio = modalPhotoContainer.clientWidth / modalPhotoContainer.clientHeight;
+                        const imageAspectRatio = img.naturalWidth / img.naturalHeight;
+                        
+                        if(imageAspectRatio > containerAspectRatio) {
+                            img.style.width = '100%';
+                            img.style.height = 'auto';
+                        } else {
+                            img.style.width = 'auto';
+                            img.style.height = '100%';
+                        }
+                    });
+                    
                     modalPhotoContainer.appendChild(img);
                 });
-
+                
                 modal.style.display = 'flex';
             });
         });
-
         document.getElementById('modal').addEventListener('click', (event) => {
             if (event.target === event.currentTarget) {
                 document.getElementById('modal').style.display = 'none';
