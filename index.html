@@ -68,33 +68,6 @@
     img.blend {
         mix-blend-mode: screen; /* Screen blend mode for Green and Blue Channel */
     }
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .modal-content {
-        background-color: white;
-        width: 90%;
-        height: 90%;
-        position: relative;
-    }
-    
-    .modal-photo-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-    
 </style>
 </head>
 <body>
@@ -108,7 +81,6 @@
             </ul>
         </nav>
     </header>
-
     <div class="grid-container">
         <div class="container" data-base="supp/menswear dog 1">
             <div class="photo-frame">
@@ -135,41 +107,32 @@
                 <div class="photo-container"></div>
             </div>
         </div>
+        <div class="container" data-base="supp/postcard_02">
+            <div class="photo-frame">
+                <div class="photo-container"></div>
+            </div>
+        </div>
+        <div class="container" data-base="supp/52621279896_4b276ff8dd_o_Downsample-gigapixel-low_res-scale-2_00x">
+            <div class="photo-frame">
+                <div class="photo-container"></div>
+            </div>
+        </div>
         <!-- More Containers as needed. Update the data-base attributes accordingly -->
     </div>
-    <div class="modal-content">
-        <div class="photo-container modal-photo-container"></div>
-    </div>
     <script>
-        document.querySelectorAll('.photo-frame').forEach((photoFrame, index) => {
-            photoFrame.addEventListener('click', () => {
-                const modal = document.getElementById('modal');
-                const modalPhotoContainer = document.querySelector('.modal-photo-container');
-                
-                // Clear previous images
-                modalPhotoContainer.innerHTML = '';
-                
-                const base = document.querySelectorAll('.container')[index].getAttribute('data-base');
-                
-                ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, index) => {
-                    const img = document.createElement('img');
-                    img.src = base + suffix;
-                    img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
-                    img.style.backgroundColor = ['red', 'green', 'blue'][index];
-                    if (index > 0) img.classList.add('blend'); 
-                    modalPhotoContainer.appendChild(img);
-                });
-        
-                modal.style.display = 'flex';
+        document.querySelectorAll('.container').forEach(container => {
+            const base = container.getAttribute('data-base');
+            const photoContainer = container.querySelector('.photo-container');
+            
+            ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, index) => {
+                const img = document.createElement('img');
+                img.src = base + suffix;
+                img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
+                img.style.backgroundColor = ['red', 'green', 'blue'][index];
+                if (index > 0) img.classList.add('blend'); // Add blend class to Green and Blue Channel
+                photoContainer.appendChild(img);
             });
         });
-        
-        // Close the modal when clicking outside the modal content
-        document.getElementById('modal').addEventListener('click', (event) => {
-            if (event.target === event.currentTarget) {
-                document.getElementById('modal').style.display = 'none';
-            }
-        });        
     </script>
 </body>
 </html>
