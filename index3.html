@@ -5,33 +5,50 @@
 <title>RGB Blending</title>
 <style>
     body {
-        background-color: #000000; /* Dark Background */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
+        background-color: #000000;
         margin: 0;
+        font-family: 'Arial', sans-serif;
+    }
+    header {
+        background-color: #ffffff;
+        padding: 10px;
+        text-align: center;
+    }
+    nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    nav ul li {
+        display: inline-block;
+        margin-right: 20px;
+    }
+    nav ul li a {
+        text-decoration: none;
+        color: black;
     }
     .grid-container {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 2 columns */
-        grid-template-rows: repeat(3, 1fr); /* 3 rows */
-        gap: 2%; /* Adjust the gap between grid items */
-        width: 100%; /* Adjusted width to use the full width of the viewport */
-        max-width: 1200px; /* Maximum width of the grid container */
-        margin: auto; /* Center the grid container */
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 2%;
+        width: 100%;
+        max-width: 1200px;
+        margin: auto;
         margin-top: 50px;
+        padding: 0 20px;
     }
     .container {
         position: relative;
         width: 100%;
     }
     .photo-frame {
-        background-color: #ffffff; /* White Background */
+        background-color: #ffffff;
         width: 100%;
         height: 0;
-        padding-bottom: 100%; /* Equal width and height */
-        position: relative; /* Make it a positioning context for its children */
+        padding-bottom: 100%;
+        position: relative;
     }
     .photo-container {
         position: absolute;
@@ -49,60 +66,93 @@
         object-fit: cover;
     }
     img.blend {
-        mix-blend-mode: screen; /* Screen blend mode for Green and Blue Channel */
+        mix-blend-mode: screen;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        align-items: center;
+        justify-content: center;
+    }
+    .modal-content {
+        background-color: white;
+        width: 90%;
+        height: 90%;
+        position: relative;
+    }
+    .modal-photo-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
     }
 </style>
 </head>
 <body>
-    <h1>Welcome to My Site!</h1>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index2.html">About</a></li>
-            <li><a href="index3.html">Contact</a></li>
-        </ul>
-    </nav>
+    <header>
+        <h1>Welcome to My Site!</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index2.html">NUMBER 2</a></li>
+                <li><a href="index3.html">NUMBER 3</a></li>
+            </ul>
+        </nav>
+    </header>
     <div class="grid-container">
-        <div class="container" data-base="supp/menswear dog 1">
-            <div class="photo-frame">
-                <div class="photo-container"></div>
-            </div>
+        <!-- ... (Your existing .container elements here) ... -->
+    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="photo-container modal-photo-container"></div>
         </div>
-        <div class="container" data-base="supp/hiphotelsfrance0000ypma_0248_DS">
-            <div class="photo-frame">
-                <div class="photo-container"></div>
-            </div>
-        </div>
-        <div class="container" data-base="supp/shame">
-            <div class="photo-frame">
-                <div class="photo-container"></div>
-            </div>
-        </div>
-        <div class="container" data-base="HomeslicePXL_20230413_162019782">
-            <div class="photo-frame">
-                <div class="photo-container"></div>
-            </div>
-        </div>
-        <div class="container" data-base="supp/DSC_0045">
-            <div class="photo-frame">
-                <div class="photo-container"></div>
-            </div>
-        </div>
-        <!-- More Containers as needed. Update the data-base attributes accordingly -->
     </div>
     <script>
         document.querySelectorAll('.container').forEach(container => {
             const base = container.getAttribute('data-base');
             const photoContainer = container.querySelector('.photo-container');
-            
+
             ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, index) => {
                 const img = document.createElement('img');
                 img.src = base + suffix;
                 img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
                 img.style.backgroundColor = ['red', 'green', 'blue'][index];
-                if (index > 0) img.classList.add('blend'); // Add blend class to Green and Blue Channel
+                if (index > 0) img.classList.add('blend');
                 photoContainer.appendChild(img);
             });
+        });
+
+        document.querySelectorAll('.photo-frame').forEach((photoFrame, index) => {
+            photoFrame.addEventListener('click', () => {
+                const modal = document.getElementById('modal');
+                const modalPhotoContainer = document.querySelector('.modal-photo-container');
+                modalPhotoContainer.innerHTML = '';
+
+                const base = document.querySelectorAll('.container')[index].getAttribute('data-base');
+
+                ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, index) => {
+                    const img = document.createElement('img');
+                    img.src = base + suffix;
+                    img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
+                    img.style.backgroundColor = ['red', 'green', 'blue'][index];
+                    if (index > 0) img.classList.add('blend');
+                    modalPhotoContainer.appendChild(img);
+                });
+
+                modal.style.display = 'flex';
+            });
+        });
+
+        document.getElementById('modal').addEventListener('click', (event) => {
+            if (event.target === event.currentTarget) {
+                document.getElementById('modal').style.display = 'none';
+            }
         });
     </script>
 </body>
