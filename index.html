@@ -6,11 +6,26 @@
 <style>
     body {
         background-color: #000000; /* Dark Background */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
         margin: 0;
+        font-family: 'Arial', sans-serif;
+    }
+    header {
+        background-color: #ffffff; /* White Background for Header */
+        padding: 10px;
+        text-align: center;
+    }
+    nav ul {
+        list-style-type: none; /* Remove bullet points */
+        margin: 0;
+        padding: 0;
+    }
+    nav ul li {
+        display: inline; /* Display list items in a row */
+        margin-right: 20px; /* Space between list items */
+    }
+    nav ul li a {
+        text-decoration: none; /* Remove underline */
+        color: black; /* Text color */
     }
     .grid-container {
         display: grid;
@@ -21,6 +36,7 @@
         max-width: 1200px; /* Maximum width of the grid container */
         margin: auto; /* Center the grid container */
         margin-top: 50px;
+        padding: 0 20px;
     }
     .container {
         position: relative;
@@ -54,14 +70,16 @@
 </style>
 </head>
 <body>
-    <h1>Welcome to My Site!</h1>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index2.html">NUMBER 2</a></li>
-            <li><a href="index3.html">NUMBER 3</a></li>
-        </ul>
-    </nav>
+    <header>
+        <h1>Welcome to My Site!</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index2.html">NUMBER 2</a></li>
+                <li><a href="index3.html">NUMBER 3</a></li>
+            </ul>
+        </nav>
+    </header>
     <div class="grid-container">
         <div class="container" data-base="supp/menswear dog 1">
             <div class="photo-frame">
