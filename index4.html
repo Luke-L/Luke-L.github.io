@@ -183,7 +183,6 @@
                 const img = document.createElement('img');
                 img.src = base + suffix;
                 img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
-                img.style.backgroundColor = ['red', 'green', 'blue'][index];
                 if (index > 0) img.classList.add('blend');
                 photoContainer.appendChild(img);
             });
@@ -201,7 +200,6 @@
                     const img = document.createElement('img');
                     img.src = base + suffix;
                     img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
-                    img.style.backgroundColor = ['red', 'green', 'blue'][index];
                     img.style.objectFit = 'contain';
                     if (index > 0) img.classList.add('blend');
                     modalPhotoContainer.appendChild(img);
@@ -215,7 +213,18 @@
                 document.getElementById('modal').style.display = 'none';
             }
         });
-
+        img.addEventListener('load', () => {
+            const containerAspectRatio = modalPhotoContainer.clientWidth / modalPhotoContainer.clientHeight;
+            const imageAspectRatio = img.naturalWidth / img.naturalHeight;
+        
+            if (imageAspectRatio > containerAspectRatio) {
+                img.style.width = '100%';
+                img.style.height = 'auto';
+            } else {
+                img.style.width = 'auto';
+                img.style.height = '100%';
+            }
+        });
     </script>
 </body>
 
