@@ -189,72 +189,83 @@
                 photoContainer.appendChild(img);
             });
         });
+    
+        const handleImageLoadForModal = (img, modalContent, modalPhotoContainer) => {
+            const imageAspectRatio = img.naturalWidth / img.naturalHeight;
         
+            // Determine the available viewport size
+            const availableWidth = window.innerWidth * 0.95;
+            const availableHeight = window.innerHeight * 0.95;
+        
+            // Calculate the image's dimensions based on the available space and its aspect ratio
+            let imgWidth, imgHeight;
+            if (imageAspectRatio > 1) {
+                imgWidth = Math.min(availableWidth, img.naturalWidth);
+                imgHeight = imgWidth / imageAspectRatio;
+                if (imgHeight > availableHeight) {
+                    imgHeight = availableHeight;
+                    imgWidth = imgHeight * imageAspectRatio;
+                }
+            } else {
+                imgHeight = Math.min(availableHeight, img.naturalHeight);
+                imgWidth = imgHeight * imageAspectRatio;
+                if (imgWidth > availableWidth) {
+                    imgWidth = availableWidth;
+                    imgHeight = imgWidth / imageAspectRatio;
+                }
+            }
+        
+            // Apply the calculated dimensions to the modal content
+            modalContent.style.width = `${imgWidth}px`;
+            modalContent.style.height = `${imgHeight}px`;
+        
+            modalPhotoContainer.appendChild(img);
+        };
+    
         document.querySelectorAll('.photo-frame').forEach((photoFrame, index) => {
             photoFrame.addEventListener('click', () => {
                 const modal = document.getElementById('modal');
                 const modalContent = modal.querySelector('.modal-content');
                 const modalPhotoContainer = modal.querySelector('.modal-photo-container');
                 modalPhotoContainer.innerHTML = '';
-        
+    
                 const base = document.querySelectorAll('.container')[index].getAttribute('data-base');
         
-                ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, index) => {
-                    const img = document.createElement('img');
-                    img.src = base + suffix;
-                    img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
-                    if (index > 0) img.classList.add('blend');
-        
-                    img.addEventListener('load', () => {
-                        const imageAspectRatio = img.naturalWidth / img.naturalHeight;
-                    
-                        // Determine the available viewport size
-                        const availableWidth = window.innerWidth * 0.95;
-                        const availableHeight = window.innerHeight * 0.95;
-                    
-                        // Calculate the image's dimensions based on the available space and its aspect ratio
-                        let imgWidth, imgHeight;
-                        if (imageAspectRatio > 1) {
-                            imgWidth = Math.min(availableWidth, img.naturalWidth);
-                            imgHeight = imgWidth / imageAspectRatio;
-                            if (imgHeight > availableHeight) {
-                                imgHeight = availableHeight;
-                                imgWidth = imgHeight * imageAspectRatio;
-                            }
-                        } else {
-                            imgHeight = Math.min(availableHeight, img.naturalHeight);
-                            imgWidth = imgHeight * imageAspectRatio;
-                            if (imgWidth > availableWidth) {
-                                imgWidth = availableWidth;
-                                imgHeight = imgWidth / imageAspectRatio;
-                            }
-                        }
-                    
-                        // Apply the calculated dimensions to the modal content
-                        modalContent.style.width = `${imgWidth}px`;
-                        modalContent.style.height = `${imgHeight}px`;
-                    
-                        modalPhotoContainer.appendChild(img);
+                // Use a promise to ensure all images are loaded
+                const imageLoadPromises = ['_R.jpg', '_G.jpg', '_B.jpg'].map((suffix, index) => {
+                    return new Promise((resolve, reject) => {
+                        const img = document.createElement('img');
+                        img.src = base + suffix;
+                        img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
+                        if (index > 0) img.classList.add('blend');
+                        img.onload = () => {
+                            handleImageLoadForModal(img, modalContent, modalPhotoContainer);
+                            resolve();
+                        };
+                        img.onerror = reject;
                     });
                 });
-        
-                modal.style.display = 'flex';
+    
+                Promise.all(imageLoadPromises).then(() => {
+                    modal.style.display = 'flex';
+                }).catch(error => {
+                    console.error("One or more images failed to load:", error);
+                });
             });
         });
-        
+    
         // Close modal when clicking outside the image or pressing the ESC key
         document.getElementById('modal').addEventListener('click', (event) => {
             if (event.target === event.currentTarget) {
                 document.getElementById('modal').style.display = 'none';
             }
         });
-        
+    
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 document.getElementById('modal').style.display = 'none';
             }
         });
-        
     </script>
 </body>
 
