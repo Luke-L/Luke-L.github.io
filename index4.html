@@ -178,7 +178,7 @@
         document.querySelectorAll('.container').forEach(container => {
             const base = container.getAttribute('data-base');
             const photoContainer = container.querySelector('.photo-container');
-
+        
             ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, index) => {
                 const img = document.createElement('img');
                 img.src = base + suffix;
@@ -187,44 +187,64 @@
                 photoContainer.appendChild(img);
             });
         });
-
+        
         document.querySelectorAll('.photo-frame').forEach((photoFrame, index) => {
             photoFrame.addEventListener('click', () => {
                 const modal = document.getElementById('modal');
-                const modalPhotoContainer = document.querySelector('.modal-photo-container');
+                const modalContent = modal.querySelector('.modal-content');
+                const modalPhotoContainer = modal.querySelector('.modal-photo-container');
                 modalPhotoContainer.innerHTML = '';
-
+        
                 const base = document.querySelectorAll('.container')[index].getAttribute('data-base');
-
+        
                 ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, index) => {
                     const img = document.createElement('img');
                     img.src = base + suffix;
                     img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
-                    img.style.objectFit = 'contain';
                     if (index > 0) img.classList.add('blend');
-                    modalPhotoContainer.appendChild(img);
+        
+                    img.addEventListener('load', () => {
+                        const imageAspectRatio = img.naturalWidth / img.naturalHeight;
+                        
+                        if (window.innerWidth > window.innerHeight) {
+                            if (imageAspectRatio > 1) {
+                                modalContent.style.width = '95vw';
+                                modalContent.style.height = (95 / imageAspectRatio) + 'vw';
+                            } else {
+                                modalContent.style.width = (95 * imageAspectRatio) + 'vh';
+                                modalContent.style.height = '95vh';
+                            }
+                        } else {
+                            if (imageAspectRatio > 1) {
+                                modalContent.style.width = '95vh';
+                                modalContent.style.height = (95 / imageAspectRatio) + 'vh';
+                            } else {
+                                modalContent.style.width = (95 * imageAspectRatio) + 'vw';
+                                modalContent.style.height = '95vw';
+                            }
+                        }
+        
+                        modalPhotoContainer.appendChild(img);
+                    });
                 });
-
+        
                 modal.style.display = 'flex';
             });
         });
+        
+        // Close modal when clicking outside the image or pressing the ESC key
         document.getElementById('modal').addEventListener('click', (event) => {
             if (event.target === event.currentTarget) {
                 document.getElementById('modal').style.display = 'none';
             }
         });
-        img.addEventListener('load', () => {
-            const containerAspectRatio = modalPhotoContainer.clientWidth / modalPhotoContainer.clientHeight;
-            const imageAspectRatio = img.naturalWidth / img.naturalHeight;
         
-            if (imageAspectRatio > containerAspectRatio) {
-                img.style.width = '100%';
-                img.style.height = 'auto';
-            } else {
-                img.style.width = 'auto';
-                img.style.height = '100%';
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                document.getElementById('modal').style.display = 'none';
             }
         });
+        
     </script>
 </body>
 
