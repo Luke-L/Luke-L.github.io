@@ -39,7 +39,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(3, 1fr);
-            gap: 25px;
+            gap: 35px;
             width: 100%;
             max-width: 1200px;
             margin: auto;
@@ -174,7 +174,7 @@
                 <div class="photo-container"></div>
             </div>
         </div>
-        <div class="container" data-base="supp/DSC_0278">
+        <div class="container" data-base="supp/DSC_0278-topaz-denoise-faceai">
             <div class="photo-frame">
                 <div class="photo-container"></div>
             </div>
@@ -217,25 +217,33 @@
         
                     img.addEventListener('load', () => {
                         const imageAspectRatio = img.naturalWidth / img.naturalHeight;
-                        
-                        if (window.innerWidth > window.innerHeight) {
-                            if (imageAspectRatio > 1) {
-                                modalContent.style.width = '95vw';
-                                modalContent.style.height = (95 / imageAspectRatio) + 'vw';
-                            } else {
-                                modalContent.style.width = (95 * imageAspectRatio) + 'vh';
-                                modalContent.style.height = '95vh';
+                    
+                        // Determine the available viewport size
+                        const availableWidth = window.innerWidth * 0.95;
+                        const availableHeight = window.innerHeight * 0.95;
+                    
+                        // Calculate the image's dimensions based on the available space and its aspect ratio
+                        let imgWidth, imgHeight;
+                        if (imageAspectRatio > 1) {
+                            imgWidth = Math.min(availableWidth, img.naturalWidth);
+                            imgHeight = imgWidth / imageAspectRatio;
+                            if (imgHeight > availableHeight) {
+                                imgHeight = availableHeight;
+                                imgWidth = imgHeight * imageAspectRatio;
                             }
                         } else {
-                            if (imageAspectRatio > 1) {
-                                modalContent.style.width = '95vh';
-                                modalContent.style.height = (95 / imageAspectRatio) + 'vh';
-                            } else {
-                                modalContent.style.width = (95 * imageAspectRatio) + 'vw';
-                                modalContent.style.height = '95vw';
+                            imgHeight = Math.min(availableHeight, img.naturalHeight);
+                            imgWidth = imgHeight * imageAspectRatio;
+                            if (imgWidth > availableWidth) {
+                                imgWidth = availableWidth;
+                                imgHeight = imgWidth / imageAspectRatio;
                             }
                         }
-        
+                    
+                        // Apply the calculated dimensions to the modal content
+                        modalContent.style.width = `${imgWidth}px`;
+                        modalContent.style.height = `${imgHeight}px`;
+                    
                         modalPhotoContainer.appendChild(img);
                     });
                 });
