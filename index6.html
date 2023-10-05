@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Make sure your site is responsive -->
+    <title>Luke Lava's Website</title>
+    <style>
+        body {
+            background-color: #000000;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        header {
+            background-color: #141414;
+            padding: 10px;
+            text-align: center;
+            color:wheat;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 10px; /* Reduced for small screens */
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            padding: 5px; /* Padding for clickable area */
+        }
+
+        nav ul li a:hover {
+            background-color: #333; /* Background color on hover */
+            border-radius: 5px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr); /* Start with 1 column for mobile */
+            gap: 15px; /* Reduced gap for mobile */
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            margin-top: 25px; /* Reduced for mobile */
+            padding: 0 10px; /* Reduced padding for mobile */
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+        }
+
+        .photo-frame {
+            background-color: #ffffff;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            position: relative;
+        }
+
+        .photo-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        img.blend {
+            mix-blend-mode: screen;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: transparent; /* Updated */
+            width: 95%;
+            height: 95%;
+            position: relative;
+        }
+
+        .modal-photo-container {
+            display: flex; /* Added */
+            align-items: center; /* Added */
+            justify-content: center; /* Added */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        @media screen and (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets and above */
+                gap: 35px;
+                margin-top: 50px;
+                padding: 0 20px;
+            }
+
+            nav ul li {
+                margin-right: 20px;
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            .grid-container {
+                grid-template-columns: repeat(3, 1fr); /* 3 columns for desktops and above */
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>A Digital Tribute to Luke Lava v6</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index2.html">NUMBER 2</a></li>
+                <li><a href="index3.html">NUMBER 3</a></li>
+                <li><a href="index4.html">NUMBER 4</a></li>
+                <li><a href="index5.html">NUMBER 5</a></li>
+                <li><div title="Coming Soon!">Portfolio</div></li>
+                <li><div title="Coming Soon!">About</div></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="grid-container">
+        <!-- Image containers will be dynamically inserted here -->
+    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="photo-container modal-photo-container"></div>
+        </div>
+    </div>
+    <script>
+        const imageBases = [
+            "docs/DSC_1095_edit",
+            "docs/DSC_0278-Final",
+            "docs/DSC_0436_edit",
+            "docs/DSC_0936_edit",
+            "docs/DSC_1064_edit",
+            "docs/DSC_0866_edit",
+            "docs/DSC_0376_edit",
+            "docs/DSC_0850-Pano_edit",
+            "docs/DSC_0240-Final",
+
+            
+            "docs/DSC_0030_edit",
+            "docs/DSC_1072_edit",
+        ];
+
+        const gridContainer = document.querySelector('.grid-container');
+
+        imageBases.forEach(base => {
+            const container = document.createElement('div');
+            container.className = "container";
+            container.setAttribute('data-base', base);
+
+            const photoFrame = document.createElement('div');
+            photoFrame.className = "photo-frame";
+
+            const photoContainer = document.createElement('div');
+            photoContainer.className = "photo-container";
+
+            photoFrame.appendChild(photoContainer);
+            container.appendChild(photoFrame);
+            gridContainer.appendChild(container);
+        });
+
+        // ... (rest of your existing script here) ...
+        document.querySelectorAll('.container').forEach(container => {
+            const base = container.getAttribute('data-base');
+            const photoContainer = container.querySelector('.photo-container');
+        
+            ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, index) => {
+                const img = document.createElement('img');
+                img.src = base + suffix;
+                img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
+                if (index > 0) img.classList.add('blend');
+                photoContainer.appendChild(img);
+            });
+        });
+    
+        const handleImageLoadForModal = (img, modalContent, modalPhotoContainer) => {
+            const imageAspectRatio = img.naturalWidth / img.naturalHeight;
+        
+            // Determine the available viewport size
+            const availableWidth = window.innerWidth * 0.95;
+            const availableHeight = window.innerHeight * 0.95;
+        
+            // Calculate the image's dimensions based on the available space and its aspect ratio
+            let imgWidth, imgHeight;
+            if (imageAspectRatio > 1) {
+                imgWidth = Math.min(availableWidth, img.naturalWidth);
+                imgHeight = imgWidth / imageAspectRatio;
+                if (imgHeight > availableHeight) {
+                    imgHeight = availableHeight;
+                    imgWidth = imgHeight * imageAspectRatio;
+                }
+            } else {
+                imgHeight = Math.min(availableHeight, img.naturalHeight);
+                imgWidth = imgHeight * imageAspectRatio;
+                if (imgWidth > availableWidth) {
+                    imgWidth = availableWidth;
+                    imgHeight = imgWidth / imageAspectRatio;
+                }
+            }
+        
+            // Apply the calculated dimensions to the modal content
+            modalContent.style.width = `${imgWidth}px`;
+            modalContent.style.height = `${imgHeight}px`;
+        
+            modalPhotoContainer.appendChild(img);
+        };
+    
+        document.querySelectorAll('.photo-frame').forEach((photoFrame, index) => {
+            photoFrame.addEventListener('click', () => {
+                const modal = document.getElementById('modal');
+                const modalContent = modal.querySelector('.modal-content');
+                const modalPhotoContainer = modal.querySelector('.modal-photo-container');
+                modalPhotoContainer.innerHTML = '';
+    
+                const base = document.querySelectorAll('.container')[index].getAttribute('data-base');
+        
+                // Use a promise to ensure all images are loaded
+                const imageLoadPromises = ['_R.jpg', '_G.jpg', '_B.jpg'].map((suffix, index) => {
+                    return new Promise((resolve, reject) => {
+                        const img = document.createElement('img');
+                        img.src = base + suffix;
+                        img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
+                        if (index > 0) img.classList.add('blend');
+                        img.onload = () => {
+                            handleImageLoadForModal(img, modalContent, modalPhotoContainer);
+                            resolve();
+                        };
+                        img.onerror = reject;
+                    });
+                });
+    
+                Promise.all(imageLoadPromises).then(() => {
+                    modal.style.display = 'flex';
+                }).catch(error => {
+                    console.error("One or more images failed to load:", error);
+                });
+            });
+        });
+    
+        // Close modal when clicking outside the image or pressing the ESC key
+        document.getElementById('modal').addEventListener('click', (event) => {
+            if (event.target === event.currentTarget) {
+                document.getElementById('modal').style.display = 'none';
+            }
+        });
+    
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                document.getElementById('modal').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>
