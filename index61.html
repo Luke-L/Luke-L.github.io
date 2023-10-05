@@ -7,160 +7,159 @@
     <title>Luke Lava's Website</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+		body {
+			background-color: #181818;
+			margin: 0;
+			font-family: 'Roboto', sans-serif;
+			color: #EAEAEA;
+		}
+	
+		header {
+			background-color: #222;
+			padding: 15px 0;
+			text-align: center;
+		}
+		header h1 {
+			border-bottom: 3px solid red;
+		    	padding-bottom: 10px;
+		}
+	
+		nav ul {
+			list-style-type: none;
+			text-align: center;
+		}
+	
+		nav ul li {
+			display: inline-block;
+			margin: 0 15px;
+		}
+	
+		nav ul li a {
+			text-decoration: none;
+			color: #EAEAEA;
+			padding: 5px 10px;
+			border-radius: 4px;
+			transition: background-color 0.3s, color 0.3s;
+		}
+	
+		nav ul li a:hover {
+			background-color: #EAEAEA;
+			color: #222;
+		}
+	
+		.grid-container {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 20px;  /* Reduced gap for mobile */
+			max-width: 1200px;
+			margin: 40px auto;  /* Slightly reduced margin for mobile */
+			padding: 0 10px;    /* Reduced padding for mobile */
+		}
+	
+		.container {
+			position: relative;
+		}
+	
+		.photo-frame {
+			background-color: #ffffff;
+			width: 100%;
+			height: 0;
+			padding-bottom: 100%;
+			position: relative;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			border-radius: 10px;
+			transition: box-shadow 0.3s;
+		}
+	
+		.photo-frame:hover {
+			box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+		}
+	
+		.photo-container {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border-radius: 10px;
+			overflow: hidden;
+		}
+	
+		.modal-photo-container {
+			/* Remove the border-radius from full-screen images */
+			border-radius: 0;
+		}
+	
+		img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	
+		img.blend {
+			mix-blend-mode: screen;
+		}
+	
+		.modal {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.8);
+			align-items: center;
+			justify-content: center;
+		}
+	
+		.modal-content {
+			background-color: transparent;
+			width: 95%;
+			height: 95%;
+			position: relative;
+		}
+	
+		.modal-photo-container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	
+		@media screen and (min-width: 480px) {
+			.grid-container {
+				grid-template-columns: repeat(2, 1fr);
+				gap: 30px;
+				margin-top: 50px;
+				padding: 0 20px;
+			}
+		}
+	
+		@media screen and (min-width: 768px) {
+			.grid-container {
+				grid-template-columns: repeat(2, 1fr);
+				gap: 35px;
+				margin-top: 50px;
+				padding: 0 20px;
+			}
 
-				body {
-						background-color: #181818;
-						margin: 0;
-						font-family: 'Roboto', sans-serif;
-						color: #EAEAEA;
-				}
-
-				header {
-						background-color: #222;
-						padding: 15px 0;
-						text-align: center;
-				}
-        header h1 {
-            border-bottom: 3px solid red;
-            padding-bottom: 10px;
-				}
-
-				nav ul {
-						list-style-type: none;
-						text-align: center;
-				}
-
-				nav ul li {
-						display: inline-block;
-						margin: 0 15px;
-				}
-
-				nav ul li a {
-						text-decoration: none;
-						color: #EAEAEA;
-						padding: 5px 10px;
-						border-radius: 4px;
-						transition: background-color 0.3s, color 0.3s;
-				}
-
-				nav ul li a:hover {
-						background-color: #EAEAEA;
-						color: #222;
-				}
-
-				.grid-container {
-						display: grid;
-						grid-template-columns: repeat(2, 1fr);
-						gap: 20px;  /* Reduced gap for mobile */
-						max-width: 1200px;
-						margin: 40px auto;  /* Slightly reduced margin for mobile */
-						padding: 0 10px;    /* Reduced padding for mobile */
-				}
-
-				.container {
-						position: relative;
-				}
-
-				.photo-frame {
-						background-color: #ffffff;
-						width: 100%;
-						height: 0;
-						padding-bottom: 100%;
-						position: relative;
-						box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-						border-radius: 10px;
-						transition: box-shadow 0.3s;
-				}
-
-				.photo-frame:hover {
-						box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-				}
-
-				.photo-container {
-						position: absolute;
-						top: 0;
-						left: 0;
-						width: 100%;
-						height: 100%;
-						border-radius: 10px;
-						overflow: hidden;
-				}
-
-				.modal-photo-container {
-						/* Remove the border-radius from full-screen images */
-						border-radius: 0;
-				}
-
-				img {
-						position: absolute;
-						top: 0;
-						left: 0;
-						width: 100%;
-						height: 100%;
-						object-fit: cover;
-				}
-
-				img.blend {
-						mix-blend-mode: screen;
-				}
-
-				.modal {
-						display: none;
-						position: fixed;
-						top: 0;
-						left: 0;
-						width: 100%;
-						height: 100%;
-						background: rgba(0, 0, 0, 0.8);
-						align-items: center;
-						justify-content: center;
-				}
-
-				.modal-content {
-						background-color: transparent;
-						width: 95%;
-						height: 95%;
-						position: relative;
-				}
-
-				.modal-photo-container {
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						position: absolute;
-						top: 0;
-						left: 0;
-						width: 100%;
-						height: 100%;
-				}
-
-				@media screen and (min-width: 480px) {
-						.grid-container {
-								grid-template-columns: repeat(2, 1fr);
-								gap: 30px;
-								margin-top: 50px;
-								padding: 0 20px;
-						}
-				}
-
-				@media screen and (min-width: 768px) {
-						.grid-container {
-								grid-template-columns: repeat(2, 1fr);
-								gap: 35px;
-								margin-top: 50px;
-								padding: 0 20px;
-						}
-
-						nav ul li {
-								margin-right: 20px;
-						}
-				}
-
-				@media screen and (min-width: 1024px) {
-						.grid-container {
-								grid-template-columns: repeat(3, 1fr);
-						}
-				}
+			nav ul li {
+				margin-right: 20px;
+			}
+		}
+	
+		@media screen and (min-width: 1024px) {
+			.grid-container {
+				grid-template-columns: repeat(3, 1fr);
+			}
+		}
 
     </style>
 </head>
@@ -171,12 +170,8 @@
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="index2.html">NUMBER 2</a></li>
-                <li><a href="index3.html">NUMBER 3</a></li>
-                <li><a href="index4.html">NUMBER 4</a></li>
-                <li><a href="index5.html">NUMBER 5</a></li>
-                <li><div title="Coming Soon!">Portfolio</div></li>
-                <li><div title="Coming Soon!">About</div></li>
+		<li><div title="Coming Soon!">About</div></li>
+                <li><a href="https://www.instagram.com/luke.lava/">Instagram</a></li>
             </ul>
         </nav>
     </header>
@@ -199,8 +194,6 @@
             "docs/DSC_0376_edit",
             "docs/DSC_0850-Pano_edit",
             "docs/DSC_0240-Final",
-
-            
             "docs/DSC_0030_edit",
             "docs/DSC_1072_edit",
         ];
