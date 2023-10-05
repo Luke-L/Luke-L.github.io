@@ -8,157 +8,166 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-        body {
-            background-color: #181818;  /* Slightly brighter than pure black for a softer look */
-            margin: 0;
-            font-family: 'Roboto', sans-serif;  /* Updated to use the Roboto font */
-            color: #EAEAEA;  /* Light gray text for better contrast on dark backgrounds */
-        }
+				body {
+						background-color: #181818;
+						margin: 0;
+						font-family: 'Roboto', sans-serif;
+						color: #EAEAEA;
+				}
 
-        header {
-            background-color: #222;  /* Slightly lighter shade for header */
-            padding: 15px 0;  /* Increased padding for a spacious header */
-            text-align: center;
-        }
+				header {
+						background-color: #222;
+						padding: 15px 0;
+						text-align: center;
+				}
+        header h1 {
+            border-bottom: 3px solid red;
+            padding-bottom: 10px;
+				}
 
-        nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
+				nav ul {
+						list-style-type: none;
+						text-align: center;
+				}
 
-        nav ul li {
-            display: inline-block;
-            margin: 0 15px;  /* Adjusted margin for spacing */
-        }
+				nav ul li {
+						display: inline-block;
+						margin: 0 15px;
+				}
 
-        nav ul li a {
-            text-decoration: none;
-            color: #EAEAEA;
-            padding: 5px 10px;  /* Padding for a larger clickable area */
-            border-radius: 4px;  /* Slight border radius for a modern touch */
+				nav ul li a {
+						text-decoration: none;
+						color: #EAEAEA;
+						padding: 5px 10px;
+						border-radius: 4px;
+						transition: background-color 0.3s, color 0.3s;
+				}
 
-            /* Smooth transition */
-            transition: background-color 0.3s, color 0.3s;
-        }
+				nav ul li a:hover {
+						background-color: #EAEAEA;
+						color: #222;
+				}
 
-        nav ul li a:hover {
-            background-color: #EAEAEA;  /* Colors will invert on hover */
-            color: #222;
-        }
+				.grid-container {
+						display: grid;
+						grid-template-columns: repeat(2, 1fr);
+						gap: 20px;  /* Reduced gap for mobile */
+						max-width: 1200px;
+						margin: 40px auto;  /* Slightly reduced margin for mobile */
+						padding: 0 10px;    /* Reduced padding for mobile */
+				}
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 35px;
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
+				.container {
+						position: relative;
+				}
 
-        .container {
-            position: relative;
-        }
+				.photo-frame {
+						background-color: #ffffff;
+						width: 100%;
+						height: 0;
+						padding-bottom: 100%;
+						position: relative;
+						box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+						border-radius: 10px;
+						transition: box-shadow 0.3s;
+				}
 
-        .photo-frame {
-            background-color: #ffffff;
-            width: 100%;
-            height: 0;
-            padding-bottom: 100%;
-            position: relative;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Shadow for depth */
-            border-radius: 10px;  /* Border radius for modern rounded corners */
-            transition: box-shadow 0.3s;  /* Smooth transition for shadow */
-        }
+				.photo-frame:hover {
+						box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+				}
 
-        .photo-frame:hover {
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);  /* Darker shadow on hover */
-        }
+				.photo-container {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						border-radius: 10px;
+						overflow: hidden;
+				}
 
-        .photo-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;  /* Same border-radius to ensure the images are also rounded */
-            overflow: hidden;  /* This ensures the images stay within the rounded boundary */
-        }
+				.modal-photo-container {
+						/* Remove the border-radius from full-screen images */
+						border-radius: 0;
+				}
 
-        img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+				img {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+				}
 
-        img.blend {
-            mix-blend-mode: screen;
-        }
+				img.blend {
+						mix-blend-mode: screen;
+				}
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            align-items: center;
-            justify-content: center;
-        }
+				.modal {
+						display: none;
+						position: fixed;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						background: rgba(0, 0, 0, 0.8);
+						align-items: center;
+						justify-content: center;
+				}
 
-        .modal-content {
-            background-color: transparent; /* Updated */
-            width: 95%;
-            height: 95%;
-            position: relative;
-        }
+				.modal-content {
+						background-color: transparent;
+						width: 95%;
+						height: 95%;
+						position: relative;
+				}
 
-        .modal-photo-container {
-            display: flex; /* Added */
-            align-items: center; /* Added */
-            justify-content: center; /* Added */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        @media screen and (min-width: 480px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns for larger mobile screens */
-            }
-        }
+				.modal-photo-container {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+				}
 
-        @media screen and (min-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets and above */
-                gap: 35px;
-                margin-top: 50px;
-                padding: 0 20px;
-            }
+				@media screen and (min-width: 480px) {
+						.grid-container {
+								grid-template-columns: repeat(2, 1fr);
+								gap: 30px;
+								margin-top: 50px;
+								padding: 0 20px;
+						}
+				}
 
-            nav ul li {
-                margin-right: 20px;
-            }
-        }
+				@media screen and (min-width: 768px) {
+						.grid-container {
+								grid-template-columns: repeat(2, 1fr);
+								gap: 35px;
+								margin-top: 50px;
+								padding: 0 20px;
+						}
 
-        @media screen and (min-width: 1024px) {
-            .grid-container {
-                grid-template-columns: repeat(3, 1fr); /* 3 columns for desktops and above */
-            }
-        }
+						nav ul li {
+								margin-right: 20px;
+						}
+				}
+
+				@media screen and (min-width: 1024px) {
+						.grid-container {
+								grid-template-columns: repeat(3, 1fr);
+						}
+				}
 
     </style>
 </head>
 
 <body>
     <header>
-        <h1>An Exploration of trends in modern media today; Design language in the post-internet era. (By <i>Luke Lava</i>)</h1>
+        <h1>Luke Lava Website (Secret)</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
