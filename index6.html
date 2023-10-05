@@ -6,17 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Make sure your site is responsive -->
     <title>Luke Lava's Website</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
         body {
-            background-color: #000000;
+            background-color: #181818;  /* Slightly brighter than pure black for a softer look */
             margin: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Roboto', sans-serif;  /* Updated to use the Roboto font */
+            color: #EAEAEA;  /* Light gray text for better contrast on dark backgrounds */
         }
 
         header {
-            background-color: #141414;
-            padding: 10px;
+            background-color: #222;  /* Slightly lighter shade for header */
+            padding: 15px 0;  /* Increased padding for a spacious header */
             text-align: center;
-            color:wheat;
         }
 
         nav ul {
@@ -28,34 +30,35 @@
 
         nav ul li {
             display: inline-block;
-            margin-right: 10px; /* Reduced for small screens */
+            margin: 0 15px;  /* Adjusted margin for spacing */
         }
 
         nav ul li a {
             text-decoration: none;
-            color: white;
-            padding: 5px; /* Padding for clickable area */
+            color: #EAEAEA;
+            padding: 5px 10px;  /* Padding for a larger clickable area */
+            border-radius: 4px;  /* Slight border radius for a modern touch */
+
+            /* Smooth transition */
+            transition: background-color 0.3s, color 0.3s;
         }
 
         nav ul li a:hover {
-            background-color: #333; /* Background color on hover */
-            border-radius: 5px;
+            background-color: #EAEAEA;  /* Colors will invert on hover */
+            color: #222;
         }
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(1, 1fr); /* Start with 1 column for mobile */
-            gap: 15px; /* Reduced gap for mobile */
-            width: 100%;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
             max-width: 1200px;
-            margin: auto;
-            margin-top: 25px; /* Reduced for mobile */
-            padding: 0 10px; /* Reduced padding for mobile */
+            margin: 50px auto;
+            padding: 0 20px;
         }
 
         .container {
             position: relative;
-            width: 100%;
         }
 
         .photo-frame {
@@ -64,6 +67,13 @@
             height: 0;
             padding-bottom: 100%;
             position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Shadow for depth */
+            border-radius: 10px;  /* Border radius for modern rounded corners */
+            transition: box-shadow 0.3s;  /* Smooth transition for shadow */
+        }
+
+        .photo-frame:hover {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);  /* Darker shadow on hover */
         }
 
         .photo-container {
@@ -72,6 +82,8 @@
             left: 0;
             width: 100%;
             height: 100%;
+            border-radius: 10px;  /* Same border-radius to ensure the images are also rounded */
+            overflow: hidden;  /* This ensures the images stay within the rounded boundary */
         }
 
         img {
@@ -146,7 +158,7 @@
 
 <body>
     <header>
-        <h1>A Digital Tribute to Luke Lava v5</h1>
+        <h1>An Exploration of trends in modern media today; Design language in the post-internet era. (By <i>Luke Lava</i>)</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
