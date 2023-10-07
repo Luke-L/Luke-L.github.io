@@ -16,13 +16,19 @@
 	
 		header {
 			background-color: #222;
-			padding: 15px 0;
+			padding: 5px 0;
 			text-align: center;
 		}
-		header h1 {
-			border-bottom: 3px solid red;
-		    	padding-bottom: 10px;
-		}
+
+        header h2 {
+            font-family: monospace;
+            color: #a8a8a8;
+            font-size: smaller;
+            border-bottom: 3px solid red;
+            padding-bottom: 10px;
+            margin-top: -15px;
+        }
+
 	
 		nav ul {
 			list-style-type: none;
@@ -61,18 +67,17 @@
 		}
 	
 		.photo-frame {
-			background-color: #ffffff;
+			background-color:transparent;
 			width: 100%;
 			height: 0;
 			padding-bottom: 100%;
 			position: relative;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-			border-radius: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 			transition: box-shadow 0.3s;
 		}
 	
 		.photo-frame:hover {
-			box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+			box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
 		}
 	
 		.photo-container {
@@ -83,12 +88,8 @@
 			height: 100%;
 			border-radius: 10px;
 			overflow: hidden;
-		}
-	
-		.modal-photo-container {
-			/* Remove the border-radius from full-screen images */
-			border-radius: 0;
-		}
+            filter: drop-shadow(0px 0px 6px rgba(10,10,10,0.6));
+        }
 	
 		img {
 			position: absolute;
@@ -110,7 +111,7 @@
 			left: 0;
 			width: 100%;
 			height: 100%;
-			background: rgba(0, 0, 0, 0.8);
+			background: rgba(16, 16, 16, 0.8);
 			align-items: center;
 			justify-content: center;
 		}
@@ -131,7 +132,12 @@
 			left: 0;
 			width: 100%;
 			height: 100%;
+            border-radius: 0;
 		}
+
+        .modal-photo-container img {
+            object-fit: cover;
+        }
 	
 		@media screen and (min-width: 480px) {
 			.grid-container {
@@ -167,6 +173,7 @@
 <body>
     <header>
         <h1>Luke Lava Website (Secret)</h1>
+        <h2>beta v10.07</h2>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -216,7 +223,6 @@
             gridContainer.appendChild(container);
         });
 
-        // ... (rest of your existing script here) ...
         document.querySelectorAll('.container').forEach(container => {
             const base = container.getAttribute('data-base');
             const photoContainer = container.querySelector('.photo-container');
