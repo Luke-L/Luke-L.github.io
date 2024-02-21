@@ -65,7 +65,11 @@
 		.container {
 			position: relative;
 		}
-	
+
+        .hidden {
+            display: none;
+        }
+
 		.photo-frame {
 			background-color:transparent;
 			width: 100%;
@@ -173,7 +177,7 @@
 <body>
     <header>
         <h1>Luke Lava Website (Secret)</h1>
-        <h2>beta v10.07.02</h2>
+        <h2>beta v2024.02.21.3</h2>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -205,21 +209,28 @@
 
         const gridContainer = document.querySelector('.grid-container');
 
-        imageBases.forEach(base => {
+        imageBases.forEach(imageObject => {
             const container = document.createElement('div');
             container.className = "container";
-            container.setAttribute('data-base', base);
-
+            container.setAttribute('data-base', imageObject.base);
+          
+            const caption = document.createElement('p');
+            caption.textContent = imageObject.caption;
+            caption.classList.add('hidden'); // Add the hidden class
+            container.appendChild(caption);
+          
             const photoFrame = document.createElement('div');
             photoFrame.className = "photo-frame";
-
+          
             const photoContainer = document.createElement('div');
             photoContainer.className = "photo-container";
-
+          
             photoFrame.appendChild(photoContainer);
             container.appendChild(photoFrame);
+            container.appendChild(caption); // Add the caption to the container
             gridContainer.appendChild(container);
         });
+          
 
         document.querySelectorAll('.container').forEach(container => {
             const base = container.getAttribute('data-base');
@@ -269,6 +280,9 @@
             // Create a caption element and set its text
             const caption = document.createElement('p');
             caption.textContent = imageObject.caption;
+
+            // Remove the hidden class for modal display
+            caption.classList.remove('hidden');
 
             // Add the image and caption to the modal content
             modalPhotoContainer.appendChild(img);
