@@ -182,7 +182,7 @@
 <body>
     <header>
         <h1>Luke Lava Website</h1>
-        <h2>beta v2024.02.25.1</h2>
+        <h2>beta v2024.02.25.5</h2>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -283,9 +283,9 @@
         const handleImageLoadForModal = (img, modalContent, modalPhotoContainer, captionText, captionHeight) => {
             const imageAspectRatio = img.naturalWidth / img.naturalHeight;
         
-            // Determine the available viewport size
+            // Determine the available viewport size, reserving space for the caption
             const availableWidth = window.innerWidth * 0.95;
-            const availableHeight = window.innerHeight * 0.95 - captionHeight; // Reserve space for caption
+            const availableHeight = window.innerHeight * 0.95 - captionHeight;
         
             // Calculate the image's dimensions
             let imgWidth, imgHeight;
@@ -305,37 +305,52 @@
                 }
             }
         
-            // Apply dimensions to the modal content and photo container
+            // Apply dimensions to the modal content
             modalContent.style.width = `${imgWidth}px`;
             modalContent.style.height = `${imgHeight + captionHeight}px`;
+        
+            // Apply dimensions to the photo container
             modalPhotoContainer.style.width = `${imgWidth}px`;
             modalPhotoContainer.style.height = `${imgHeight}px`;
-        
+            
+            // Clear existing caption (if any)
+            const existingCaption = modalContent.querySelector('.modal-caption');
+            if (existingCaption) {
+                modalContent.removeChild(existingCaption);
+            }
+            
             // Create and append the caption
             const captionElement = document.createElement('div');
             captionElement.textContent = captionText;
             captionElement.style.color = '#EAEAEA';
             captionElement.style.textAlign = 'center';
-            captionElement.style.position = 'absolute';
-            captionElement.style.top = `${imgHeight}px`; // Position below the image
             captionElement.style.width = `${imgWidth}px`;
             captionElement.style.height = `${captionHeight}px`;
+            captionElement.style.position = 'absolute';
+            captionElement.style.textShadow = '0px 3px 5px black','0px 1px 8px rgba(0, 0, 0, 1)';
+            captionElement.style.bottom = '-15px'; // Position caption at the bottom of the modal content
         
-            modalContent.appendChild(img);
+            modalContent.appendChild(modalPhotoContainer);
             modalContent.appendChild(captionElement);
+            modalPhotoContainer.appendChild(img);
         };
         
         document.querySelectorAll('.photo-frame').forEach((photoFrame, index) => {
             photoFrame.addEventListener('click', () => {
                 const modal = document.getElementById('modal');
                 const modalContent = modal.querySelector('.modal-content');
-                const modalPhotoContainer = modal.querySelector('.modal-photo-container');
-                modalPhotoContainer.innerHTML = '';
+                const modalPhotoContainer = document.createElement('div');
+                modalPhotoContainer.className = 'modal-photo-container';
         
+                // Clear existing content in modal
+                modalContent.innerHTML = ''; // Completely clear the modal content
+        
+                // Setup new photo container and caption
                 const base = document.querySelectorAll('.container')[index].getAttribute('data-base');
                 const captionText = document.querySelectorAll('.container')[index].getAttribute('data-caption');
-        
                 const captionHeight = 20; // Height of the caption area
+        
+                modalContent.appendChild(modalPhotoContainer); // Append new photo container
         
                 // Use a promise to ensure all images are loaded
                 const imageLoadPromises = ['_R.jpg', '_G.jpg', '_B.jpg'].map(suffix => {
@@ -359,18 +374,31 @@
                     console.error("One or more images failed to load:", error);
                 });
             });
-        });
+        });        
+        const clearModalContent = () => {
+            const modalPhotoContainer = document.querySelector('.modal-photo-container');
+            const captionElement = document.querySelector('.modal-content .modal-caption');
+        
+            if (modalPhotoContainer) {
+                modalPhotoContainer.innerHTML = ''; // Clear the photo container content
+            }
+            if (captionElement) {
+                captionElement.remove(); // Remove the caption element
+            }
+        };
     
         // Close modal when clicking outside the image or pressing the ESC key
         document.getElementById('modal').addEventListener('click', (event) => {
             if (event.target === event.currentTarget) {
                 document.getElementById('modal').style.display = 'none';
+                clearModalContent(); // Clear modal content upon closing
             }
         });
-    
+
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 document.getElementById('modal').style.display = 'none';
+                clearModalContent(); // Clear modal content upon closing
             }
         });
     </script>
