@@ -2,16 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-16F5GWSCQC"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-16F5GWSCQC');
-    </script>
-    <link rel="icon" href="docs/LL-favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Make sure your site is responsive -->
     <title>Luke Lava's Website</title>
@@ -32,7 +22,7 @@
 
         header h2 {
             font-family: monospace;
-            color: hsla(0, 0%, 76%, 0.514);
+            color: #a8a8a8;
             font-size: smaller;
             border-bottom: 3px solid red;
             padding-bottom: 10px;
@@ -143,7 +133,6 @@
 			width: 100%;
 			height: 100%;
             border-radius: 0;
-            box-shadow: 0px 25px 20px -5px rgba(0,0,0,1);
 		}
 
         .modal-photo-container img {
@@ -183,12 +172,12 @@
 
 <body>
     <header>
-        <h1>Luke Lava Website</h1>
-        <h2>beta v2024.02.25.5</h2>
+        <h1>Luke Lava Website (Secret)</h1>
+        <h2>beta v10.07.02</h2>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
-		        <li><a href="about.html">About</a></li>
+		        <li><div title="Coming Soon!">About</div></li>
                 <li><a href="https://www.instagram.com/luke.lava/">Instagram</a></li>
             </ul>
         </nav>
@@ -203,60 +192,25 @@
     </div>
     <script>
         const imageBases = [
-            {
-                base: "docs/DSC_1095_edit",
-                caption: "High-rise Hotel in Dallas, Sep. 2023"
-            },
-            {
-                base: "docs/DSC_0278-Final",
-                caption: "Urban picnic, Feb. 2023"
-            },
-            {
-                base: "docs/DSC_0436_edit",
-                caption: "Denis and Yalin, Mar. 2023"
-            },
-            {
-                base: "docs/DSC_0936_edit",
-                caption: "Barton Springs, Jul. 2023"
-            },
-            {
-                base: "docs/DSC_1064_edit",
-                caption: "Jackie on campus, Sep. 2023"
-            },
-            {
-                base: "docs/DSC_0866_edit",
-                caption: "Democratic Construction, Jul. 2023"
-            },
-            {
-                base: "docs/DSC_0376_edit",
-                caption: "Yalin at Canals, Mar. 2023"
-            },
-            {
-                base: "docs/DSC_0850-Pano_edit",
-                caption: "Night Life, Jul. 2023"
-            },
-            {
-                base: "docs/DSC_0240-Final",
-                caption: "God and Guns, Feb. 2023"
-            },
-            {
-                base: "docs/DSC_0030-Enhanced_edit",
-                caption: "Botanical, Mar. 2023"
-            },
-            {
-                base: "docs/DSC_1073_edit",
-                caption: "Gazebo, Sep. 2023"
-            }
+            "docs/DSC_1095_edit",
+            "docs/DSC_0278-Final",
+            "docs/DSC_0436_edit",
+            "docs/DSC_0936_edit",
+            "docs/DSC_1064_edit",
+            "docs/DSC_0866_edit",
+            "docs/DSC_0376_edit",
+            "docs/DSC_0850-Pano_edit",
+            "docs/DSC_0240-Final",
+            "docs/DSC_0030-Enhanced_edit",
+            "docs/DSC_1073_edit",
         ];
-
 
         const gridContainer = document.querySelector('.grid-container');
 
-        imageBases.forEach(item => {
+        imageBases.forEach(base => {
             const container = document.createElement('div');
             container.className = "container";
-            container.setAttribute('data-base', item.base);
-            container.setAttribute('data-caption', item.caption);
+            container.setAttribute('data-base', base);
 
             const photoFrame = document.createElement('div');
             photoFrame.className = "photo-frame";
@@ -282,14 +236,14 @@
             });
         });
     
-        const handleImageLoadForModal = (img, modalContent, modalPhotoContainer, captionText, captionHeight) => {
+        const handleImageLoadForModal = (img, modalContent, modalPhotoContainer) => {
             const imageAspectRatio = img.naturalWidth / img.naturalHeight;
         
-            // Determine the available viewport size, reserving space for the caption
+            // Determine the available viewport size
             const availableWidth = window.innerWidth * 0.95;
-            const availableHeight = window.innerHeight * 0.95 - captionHeight;
+            const availableHeight = window.innerHeight * 0.95;
         
-            // Calculate the image's dimensions
+            // Calculate the image's dimensions based on the available space and its aspect ratio
             let imgWidth, imgHeight;
             if (imageAspectRatio > 1) {
                 imgWidth = Math.min(availableWidth, img.naturalWidth);
@@ -307,100 +261,55 @@
                 }
             }
         
-            // Apply dimensions to the modal content
+            // Apply the calculated dimensions to the modal content
             modalContent.style.width = `${imgWidth}px`;
-            modalContent.style.height = `${imgHeight + captionHeight}px`;
+            modalContent.style.height = `${imgHeight}px`;
         
-            // Apply dimensions to the photo container
-            modalPhotoContainer.style.width = `${imgWidth}px`;
-            modalPhotoContainer.style.height = `${imgHeight}px`;
-            
-            // Clear existing caption (if any)
-            const existingCaption = modalContent.querySelector('.modal-caption');
-            if (existingCaption) {
-                modalContent.removeChild(existingCaption);
-            }
-            
-            // Create and append the caption
-            const captionElement = document.createElement('div');
-            captionElement.textContent = captionText;
-            captionElement.style.color = '#EAEAEA';
-            captionElement.style.textAlign = 'center';
-            captionElement.style.width = `${imgWidth}px`;
-            captionElement.style.height = `${captionHeight}px`;
-            captionElement.style.position = 'absolute';
-            captionElement.style.textShadow = '0px 3px 5px black','0px 1px 8px rgba(0, 0, 0, 1)';
-            captionElement.style.bottom = '-15px'; // Position caption at the bottom of the modal content
-        
-            modalContent.appendChild(modalPhotoContainer);
-            modalContent.appendChild(captionElement);
             modalPhotoContainer.appendChild(img);
         };
-        
+    
         document.querySelectorAll('.photo-frame').forEach((photoFrame, index) => {
             photoFrame.addEventListener('click', () => {
                 const modal = document.getElementById('modal');
                 const modalContent = modal.querySelector('.modal-content');
-                const modalPhotoContainer = document.createElement('div');
-                modalPhotoContainer.className = 'modal-photo-container';
-        
-                // Clear existing content in modal
-                modalContent.innerHTML = ''; // Completely clear the modal content
-        
-                // Setup new photo container and caption
+                const modalPhotoContainer = modal.querySelector('.modal-photo-container');
+                modalPhotoContainer.innerHTML = '';
+    
                 const base = document.querySelectorAll('.container')[index].getAttribute('data-base');
-                const captionText = document.querySelectorAll('.container')[index].getAttribute('data-caption');
-                const captionHeight = 10; // Height of the caption area
-        
-                modalContent.appendChild(modalPhotoContainer); // Append new photo container
         
                 // Use a promise to ensure all images are loaded
-                const imageLoadPromises = ['_R.jpg', '_G.jpg', '_B.jpg'].map(suffix => {
+                const imageLoadPromises = ['_R.jpg', '_G.jpg', '_B.jpg'].map((suffix, index) => {
                     return new Promise((resolve, reject) => {
                         const img = document.createElement('img');
                         img.src = base + suffix;
+                        img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
+                        if (index > 0) img.classList.add('blend');
                         img.onload = () => {
-                            resolve(img);
+                            handleImageLoadForModal(img, modalContent, modalPhotoContainer);
+                            resolve();
                         };
                         img.onerror = reject;
                     });
                 });
-        
-                Promise.all(imageLoadPromises).then(images => {
-                    images.forEach((img, idx) => {
-                        if (idx > 0) img.classList.add('blend');
-                        handleImageLoadForModal(img, modalContent, modalPhotoContainer, captionText, captionHeight);
-                    });
+    
+                Promise.all(imageLoadPromises).then(() => {
                     modal.style.display = 'flex';
                 }).catch(error => {
                     console.error("One or more images failed to load:", error);
                 });
             });
-        });        
-        const clearModalContent = () => {
-            const modalPhotoContainer = document.querySelector('.modal-photo-container');
-            const captionElement = document.querySelector('.modal-content .modal-caption');
-        
-            if (modalPhotoContainer) {
-                modalPhotoContainer.innerHTML = ''; // Clear the photo container content
-            }
-            if (captionElement) {
-                captionElement.remove(); // Remove the caption element
-            }
-        };
+        });
     
         // Close modal when clicking outside the image or pressing the ESC key
         document.getElementById('modal').addEventListener('click', (event) => {
             if (event.target === event.currentTarget) {
                 document.getElementById('modal').style.display = 'none';
-                clearModalContent(); // Clear modal content upon closing
             }
         });
-
+    
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 document.getElementById('modal').style.display = 'none';
-                clearModalContent(); // Clear modal content upon closing
             }
         });
     </script>
