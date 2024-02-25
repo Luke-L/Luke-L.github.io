@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luke Lava's Website</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            background-color: #181818;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #EAEAEA;
+        }
+
+        header {
+            background-color: #222;
+            padding: 5px 0;
+            text-align: center;
+        }
+
+        header h2 {
+            font-family: monospace;
+            color: #a8a8a8;
+            font-size: smaller;
+            border-bottom: 3px solid red;
+            padding-bottom: 10px;
+            margin-top: -15px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #EAEAEA;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #EAEAEA;
+            color: #222;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 10px;
+        }
+
+        .photo-frame {
+            background-color: transparent;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s;
+        }
+
+        .photo-frame:hover {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .photo-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            filter: drop-shadow(0px 0px 6px rgba(10, 10, 10, 0.6));
+        }
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        img.blend {
+            mix-blend-mode: screen;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(16, 16, 16, 0.8);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: transparent;
+            width: 95%;
+            height: 95%;
+            position: relative;
+        }
+
+        .modal-photo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-photo-container img {
+            object-fit: cover;
+        }
+
+        @media screen and (min-width: 1024px) {
+            .grid-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Luke Lava Website (Secret)</h1>
+        <h2>beta v10.07.02</h2>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><div title="Coming Soon!">About</div></li>
+                <li><a href="https://www.instagram.com/luke.lava/">Instagram</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="grid-container"></div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="photo-container modal-photo-container"></div>
+        </div>
+    </div>
+    <script>
+        const gridContainer = document.querySelector('.grid-container');
+        const imageBases = [
+            "docs/DSC_1095_edit",
+            "docs/DSC_0278-Final",
+            "docs/DSC_0436_edit",
+            "docs/DSC_0936_edit",
+            "docs/DSC_1064_edit",
+            "docs/DSC_0866_edit",
+            "docs/DSC_0376_edit",
+            "docs/DSC_0850-Pano_edit",
+            "docs/DSC_0240-Final",
+            "docs/DSC_0030-Enhanced_edit",
+            "docs/DSC_1073_edit",
+        ];
+
+        imageBases.forEach(base => {
+            const photoFrame = document.createElement('div');
+            photoFrame.className = "photo-frame";
+            const photoContainer = document.createElement('div');
+            photoContainer.className = "photo-container";
+            photoFrame.appendChild(photoContainer);
+            gridContainer.appendChild(photoFrame);
+        });
+
+        document.querySelectorAll('.photo-frame').forEach((photoFrame, index) => {
+            const base = imageBases[index];
+            ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, idx) => {
+                const img = document.createElement('img');
+                img.src = base + suffix;
+                img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][idx];
+                if (idx > 0) img.classList.add('blend');
+                photoFrame.firstChild.appendChild(img);
+            });
+        });
+
+        const handleImageLoadForModal = (img, modalContent, modalPhotoContainer) => {
+            const imageAspectRatio = img.naturalWidth / img.naturalHeight;
+        
+            // Determine the available viewport size
+            const availableWidth = window.innerWidth * 0.95;
+            const availableHeight = window.innerHeight * 0.95;
+        
+            // Calculate the image's dimensions based on the available space and its aspect ratio
+            let imgWidth, imgHeight;
+            if (imageAspectRatio > 1) {
+                imgWidth = Math.min(availableWidth, img.naturalWidth);
+                imgHeight = imgWidth / imageAspectRatio;
+                if (imgHeight > availableHeight) {
+                    imgHeight = availableHeight;
+                    imgWidth = imgHeight * imageAspectRatio;
+                }
+            } else {
+                imgHeight = Math.min(availableHeight, img.naturalHeight);
+                imgWidth = imgHeight * imageAspectRatio;
+                if (imgWidth > availableWidth) {
+                    imgWidth = availableWidth;
+                    imgHeight = imgWidth / imageAspectRatio;
+                }
+            }
+        
+            // Apply the calculated dimensions to the modal content
+            modalContent.style.width = `${imgWidth}px`;
+            modalContent.style.height = `${imgHeight}px`;
+        
+            modalPhotoContainer.appendChild(img);
+        };
+
+        document.querySelectorAll('.photo-frame').forEach((photoFrame, index) => {
+            photoFrame.addEventListener('click', () => {
+                const modal = document.getElementById('modal');
+                const modalContent = modal.querySelector('.modal-content');
+                const modalPhotoContainer = modal.querySelector('.modal-photo-container');
+                modalPhotoContainer.innerHTML = '';
+    
+                const base = document.querySelectorAll('.container')[index].getAttribute('data-base');
+        
+                // Use a promise to ensure all images are loaded
+                const imageLoadPromises = ['_R.jpg', '_G.jpg', '_B.jpg'].map((suffix, index) => {
+                    return new Promise((resolve, reject) => {
+                        const img = document.createElement('img');
+                        img.src = base + suffix;
+                        img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
+                        if (index > 0) img.classList.add('blend');
+                        img.onload = () => {
+                            handleImageLoadForModal(img, modalContent, modalPhotoContainer);
+                            resolve();
+                        };
+                        img.onerror = reject;
+                    });
+                });
+    
+                Promise.all(imageLoadPromises).then(() => {
+                    modal.style.display = 'flex';
+                }).catch(error => {
+                    console.error("One or more images failed to load:", error);
+                });
+            });
+        });
+
+        // Close modal when clicking outside the image or pressing the ESC key
+        document.getElementById('modal').addEventListener('click', (event) => {
+            if (event.target === event.currentTarget) {
+                document.getElementById('modal').style.display = 'none';
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                document.getElementById('modal').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

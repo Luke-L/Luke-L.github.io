@@ -138,6 +138,19 @@
         .modal-photo-container img {
             object-fit: cover;
         }
+
+        .modal-text {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            color: white;
+            box-sizing: border-box;
+            font-size: 0.9em;
+        }
 	
 		@media screen and (min-width: 480px) {
 			.grid-container {
@@ -173,7 +186,7 @@
 <body>
     <header>
         <h1>Luke Lava Website (Secret)</h1>
-        <h2>beta v2024.02.21.7</h2>
+        <h2>beta v10.07.02</h2>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -188,97 +201,45 @@
     <div id="modal" class="modal">
         <div class="modal-content">
             <div class="photo-container modal-photo-container"></div>
+            <div class="modal-text">
+                <span id="modal-title"></span>
+                <span id="modal-date"></span>
+            </div>
         </div>
     </div>
     <script>
-        const imageBases = [
-            {
-                base: "docs/DSC_1095_edit",
-                caption: "Caption for Image DSC_1095_edit"
-            },
-            {
-                base: "docs/DSC_0278-Final",
-                caption: "Caption for Image DSC_0278-Final"
-            },
-            {
-                base: "docs/DSC_0436_edit",
-                caption: "Caption for Image DSC_0436_edit"
-            },
-            {
-                base: "docs/DSC_0936_edit",
-                caption: "Caption for Image DSC_0936_edit"
-            },
-            {
-                base: "docs/DSC_1064_edit",
-                caption: "Caption for Image DSC_1064_edit"
-            },
-            {
-                base: "docs/DSC_0866_edit",
-                caption: "Caption for Image DSC_0866_edit"
-            },
-            {
-                base: "docs/DSC_0376_edit",
-                caption: "Caption for Image DSC_0376_edit"
-            },
-            {
-                base: "docs/DSC_0850-Pano_edit",
-                caption: "Caption for Image DSC_0850-Pano_edit"
-            },
-            {
-                base: "docs/DSC_0240-Final",
-                caption: "Caption for Image DSC_0240-Final"
-            },
-            {
-                base: "docs/DSC_0030-Enhanced_edit",
-                caption: "Caption for Image DSC_0030-Enhanced_edit"
-            },
-            {
-                base: "docs/DSC_1073_edit",
-                caption: "Caption for Image DSC_1073_edit"
-            }
+        const images = [
+            { path: "docs/DSC_1095_edit", title: "Image One", date: "2023-01-01" },
+            { path: "docs/DSC_0278-Final", title: "Image Two", date: "2023-01-02" },
+            // ... more images with title and date
         ];
-
-
+    
         const gridContainer = document.querySelector('.grid-container');
-
-        imageBases.forEach(item => {
+    
+        images.forEach(image => {
             const container = document.createElement('div');
             container.className = "container";
-            container.setAttribute('data-base', item.base);
-            container.setAttribute('data-caption', item.caption);
-
+            container.setAttribute('data-base', image.path);
+    
             const photoFrame = document.createElement('div');
             photoFrame.className = "photo-frame";
-
+    
             const photoContainer = document.createElement('div');
             photoContainer.className = "photo-container";
-
+    
             photoFrame.appendChild(photoContainer);
             container.appendChild(photoFrame);
             gridContainer.appendChild(container);
         });
-
-        document.querySelectorAll('.container').forEach(container => {
-            const base = container.getAttribute('data-base');
-            const photoContainer = container.querySelector('.photo-container');
-        
-            ['_R.jpg', '_G.jpg', '_B.jpg'].forEach((suffix, index) => {
-                const img = document.createElement('img');
-                img.src = base + suffix;
-                img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
-                if (index > 0) img.classList.add('blend');
-                photoContainer.appendChild(img);
-            });
-        });
     
-        const handleImageLoadForModal = (img, modalContent, modalPhotoContainer, captionText, captionHeight) => {
+        const handleImageLoadForModal = (img, modalContent, modalPhotoContainer) => {
             const imageAspectRatio = img.naturalWidth / img.naturalHeight;
         
             // Determine the available viewport size
             const availableWidth = window.innerWidth * 0.95;
-            const availableHeight = window.innerHeight * 0.95 - captionHeight; // Reserve space for caption
+            const availableHeight = window.innerHeight * 0.95;
         
-            // Calculate the image's dimensions
+            // Calculate the image's dimensions based on the available space and its aspect ratio
             let imgWidth, imgHeight;
             if (imageAspectRatio > 1) {
                 imgWidth = Math.min(availableWidth, img.naturalWidth);
@@ -296,59 +257,49 @@
                 }
             }
         
-            // Apply dimensions to the modal content and photo container
+            // Apply the calculated dimensions to the modal content
             modalContent.style.width = `${imgWidth}px`;
-            modalContent.style.height = `${imgHeight + captionHeight}px`;
-            modalPhotoContainer.style.width = `${imgWidth}px`;
-            modalPhotoContainer.style.height = `${imgHeight}px`;
+            modalContent.style.height = `${imgHeight}px`;
         
-            // Create and append the caption
-            const captionElement = document.createElement('div');
-            captionElement.textContent = captionText;
-            captionElement.style.color = '#EAEAEA';
-            captionElement.style.textAlign = 'center';
-            captionElement.style.position = 'absolute';
-            captionElement.style.top = `${imgHeight}px`; // Position below the image
-            captionElement.style.width = `${imgWidth}px`;
-            captionElement.style.height = `${captionHeight}px`;
-        
-            modalContent.appendChild(img);
-            modalContent.appendChild(captionElement);
+            modalPhotoContainer.appendChild(img);
         };
+    
+        gridContainer.addEventListener('click', event => {
+            const photoFrame = event.target.closest('.photo-frame');
+            if (!photoFrame) return;
+    
+            const container = photoFrame.parentElement;
+            const index = Array.from(gridContainer.children).indexOf(container);
+            const modal = document.getElementById('modal');
+            const modalContent = modal.querySelector('.modal-content');
+            const modalPhotoContainer = modal.querySelector('.modal-photo-container');
+            const modalTitle = modal.querySelector('#modal-title');
+            const modalDate = modal.querySelector('#modal-date');
+    
+            modalPhotoContainer.innerHTML = '';
+    
+            const image = images[index];
+            modalTitle.textContent = image.title;
+            modalDate.textContent = image.date;
         
-        document.querySelectorAll('.photo-frame').forEach((photoFrame, index) => {
-            photoFrame.addEventListener('click', () => {
-                const modal = document.getElementById('modal');
-                const modalContent = modal.querySelector('.modal-content');
-                const modalPhotoContainer = modal.querySelector('.modal-photo-container');
-                modalPhotoContainer.innerHTML = '';
-        
-                const base = document.querySelectorAll('.container')[index].getAttribute('data-base');
-                const captionText = document.querySelectorAll('.container')[index].getAttribute('data-caption');
-        
-                const captionHeight = 20; // Height of the caption area
-        
-                // Use a promise to ensure all images are loaded
-                const imageLoadPromises = ['_R.jpg', '_G.jpg', '_B.jpg'].map(suffix => {
-                    return new Promise((resolve, reject) => {
-                        const img = document.createElement('img');
-                        img.src = base + suffix;
-                        img.onload = () => {
-                            resolve(img);
-                        };
-                        img.onerror = reject;
-                    });
+            const imageLoadPromises = ['_R.jpg', '_G.jpg', '_B.jpg'].map(suffix => {
+                return new Promise((resolve, reject) => {
+                    const img = document.createElement('img');
+                    img.src = image.path + suffix;
+                    img.alt = ['Red Channel', 'Green Channel', 'Blue Channel'][index];
+                    if (index > 0) img.classList.add('blend');
+                    img.onload = () => resolve(img);
+                    img.onerror = reject;
                 });
-        
-                Promise.all(imageLoadPromises).then(images => {
-                    images.forEach((img, idx) => {
-                        if (idx > 0) img.classList.add('blend');
-                        handleImageLoadForModal(img, modalContent, modalPhotoContainer, captionText, captionHeight);
-                    });
-                    modal.style.display = 'flex';
-                }).catch(error => {
-                    console.error("One or more images failed to load:", error);
+            });
+    
+            Promise.all(imageLoadPromises).then(loadedImages => {
+                loadedImages.forEach(img => {
+                    handleImageLoadForModal(img, modalContent, modalPhotoContainer);
                 });
+                modal.style.display = 'flex';
+            }).catch(error => {
+                console.error("One or more images failed to load:", error);
             });
         });
     
