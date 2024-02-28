@@ -18,99 +18,50 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 		body {
-            background-color: #181818;
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            color: #EAEAEA;
-        }
-        
-        body {
-            background-color: #181818;
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            color: #EAEAEA;
-        }
-        .center-div {
-            margin: auto;
-            width: 50%;
-            border:1px solid white;
-        }
-        header {
-            background-color: #222;
-            padding: 10px 0;
-        }
-        
-        .header-content {
-            display: flex;
-            border-bottom: 3px solid red;
-            padding-bottom: 15px;
-            padding-top: 10px;
-            /* align-content: center; */
-            justify-content: center;
-        }
-        
-        .header-logo {
-            margin-right: 13px;
-            display: flex;
-            justify-content: flex-start;
-            flex-wrap: nowrap;
-            flex-direction: column-reverse;
-            align-items: stretch;
-            position: relative;
-        }
-        
-        .header-text {
-            text-align: left;
-            display: flex;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            flex-direction: column;
-        }
-        
-        .header-text h1 {
-            margin: 0;
-            color: white;
-        }
-        
-        .header-text h2 {
-            margin: 0;
-            font-size: smaller;
-            color: hsla(0, 0%, 76%, 0.514);
+			background-color: #181818;
+			margin: 0;
+			font-family: 'Roboto', sans-serif;
+			color: #EAEAEA;
+		}
+	
+		header {
+			background-color: #222;
+			padding: 5px 0;
+			text-align: center;
+		}
+
+        header h2 {
             font-family: monospace;
+            color: hsla(0, 0%, 76%, 0.514);
+            font-size: smaller;
+            border-bottom: 3px solid red;
+            padding-bottom: 10px;
+            margin-top: -15px;
         }
-        
-        nav {
-            text-align: center;
-        }
-        
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 10px 0 0 0; /* Adjust top margin as needed */
-        }
-        
-        nav ul li {
-            display: inline;
-            margin: 0 15px; /* Adjust the margin as needed */
-        }
-        
-        nav ul li a {
-            text-decoration: none;
-            color: #EAEAEA;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        
-        nav ul li a:hover {
-            background-color: #EAEAEA;
-            color: #222;
-        }
-        
-        header img {
-            height: 50px;
-            width: auto;
-        }
+
+	
+		nav ul {
+			list-style-type: none;
+			text-align: center;
+		}
+	
+		nav ul li {
+			display: inline-block;
+			margin: 0 15px;
+		}
+	
+		nav ul li a {
+			text-decoration: none;
+			color: #EAEAEA;
+			padding: 5px 10px;
+			border-radius: 4px;
+			transition: background-color 0.3s, color 0.3s;
+		}
+	
+		nav ul li a:hover {
+			background-color: #EAEAEA;
+			color: #222;
+		}
 	
 		.grid-container {
 			display: grid;
@@ -232,22 +183,16 @@
 
 <body>
     <header>
-        <div class="header-content">
-            <img src="https://raw.githubusercontent.com/Luke-L/Luke-L.github.io/main/docs/LL-favicon.ico" alt="Luke Lava Logo" class="header-logo">
-            <div class="header-text">
-                <h1>Luke Lava Website</h1>
-                <h2>beta v2024.02.28.2</h2>
-            </div>
-        </div>
+        <h1>Luke Lava Website</h1>
+        <h2>beta v2024.02.25.5</h2>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
+		        <li><a href="about.html">About</a></li>
                 <li><a href="https://www.instagram.com/luke.lava/">Instagram</a></li>
             </ul>
         </nav>
     </header>
-    
     <div class="grid-container">
         <!-- Image containers will be dynamically inserted here -->
     </div>
